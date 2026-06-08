@@ -482,16 +482,13 @@ function collectData(rrn){
 }
 
 function sendToSheet(data, onSuccess, onError){
-  fetch(SHEET_URL, {
-    method:"POST",
-    mode:"no-cors",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify(data)
-  }).then(function(){
-    onSuccess();
-  }).catch(function(err){
-    onError(err);
-  });
+  var params = Object.keys(data).map(function(k){
+    return encodeURIComponent(k)+"="+encodeURIComponent(data[k]||"");
+  }).join("&");
+  var url = SHEET_URL + "?" + params;
+  fetch(url, {method:"GET"})
+    .then(function(){ onSuccess(); })
+    .catch(function(err){ onError(err); });
 }
 
 function doEarlySubmit(key){
