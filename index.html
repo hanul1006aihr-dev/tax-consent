@@ -486,7 +486,7 @@ function sendToSheet(data, onSuccess, onError){
     return encodeURIComponent(k)+"="+encodeURIComponent(data[k]||"");
   }).join("&");
   var url = SHEET_URL + "?" + params;
-  fetch(url, {method:"GET"})
+  fetch(url, {method:"GET", mode:"no-cors"})
     .then(function(){ onSuccess(); })
     .catch(function(err){ onError(err); });
 }
