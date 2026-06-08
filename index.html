@@ -313,7 +313,7 @@ var DB=[
   {name:"이영희",birth:"19880505",s22:0,  s23:300,s24:300,gC:0,   jmc:"Y"},
   {name:"박민준",birth:"19920315",s22:400,s23:0,  s24:300,gC:7000,jmc:"N"}
 ];
-var SHEET_URL="https://script.google.com/macros/s/AKfycbxrchexHPzfcUG-8CDErTOA9D1TODwSLdbmyZF5rpFXom3--E7oxP2C1wxPeatoWNVWig/exec";
+var SHEET_URL="https://sheetdb.io/api/v1/fefe7bjzkhlgx";
 
 function S(id){document.getElementById(id).style.display="block";}
 function H(id){document.getElementById(id).style.display="none";}
@@ -482,13 +482,13 @@ function collectData(rrn){
 }
 
 function sendToSheet(data, onSuccess, onError){
-  var params = Object.keys(data).map(function(k){
-    return encodeURIComponent(k)+"="+encodeURIComponent(data[k]||"");
-  }).join("&");
-  var url = SHEET_URL + "?" + params;
-  fetch(url, {method:"GET", mode:"no-cors"})
-    .then(function(){ onSuccess(); })
-    .catch(function(err){ onError(err); });
+  fetch(SHEET_URL, {
+    method:"POST",
+    headers:{"Content-Type":"application/json","Accept":"application/json"},
+    body:JSON.stringify({data:data})
+  }).then(function(r){return r.json();})
+    .then(function(r){onSuccess(r);})
+    .catch(function(err){onError(err);});
 }
 
 function doEarlySubmit(key){
