@@ -484,8 +484,8 @@ function collectData(rrn){
 function sendToSheet(data, onSuccess, onError){
   fetch(SHEET_URL, {
     method:"POST",
-    headers:{"Content-Type":"application/json","Accept":"application/json"},
-    body:JSON.stringify({data:data})
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({"data":[data]})
   }).then(function(r){return r.json();})
     .then(function(r){onSuccess(r);})
     .catch(function(err){onError(err);});
